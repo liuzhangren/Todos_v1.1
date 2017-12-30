@@ -48,8 +48,7 @@ StoryTodos = class StoryTodos extends Component {
     var filter;
     ({filter} = nextProps.state);
     this.setState({filter});
-    this;
-    return console.log('1');
+    return this;
   }
 
   render() {
@@ -75,12 +74,11 @@ StoryTodos = class StoryTodos extends Component {
       str: ' ',
       Delete: (function(key) {
         // console.log key
-        console.log(store.store.getState().todosRedux.todos);
-        this.props.actions.removeOne({
+        // console.log store.store.getState()
+        console.log(this.props.actions);
+        // console.log  store.store.getState().todosRedux.todos.props.actions.removeOne id: key
+        return this.props.actions.removeOne({
           id: key
-        });
-        return console.log({
-          data: store.store.getState().todosRedux.todos
         });
       }).bind(this),
       hasClick: function(str) {

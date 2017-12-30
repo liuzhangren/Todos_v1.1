@@ -42,7 +42,7 @@ class StoryTodos extends Component
       filter
     }
     @
-    console.log '1'
+
   render: ->
 
     {
@@ -79,11 +79,12 @@ class StoryTodos extends Component
         Delete: (
           (key) ->
             # console.log key
-            console.log store.store.getState().todosRedux.todos
-            @props.actions.removeOne 
-              id: key
-            console.log data: store.store.getState().todosRedux.todos
-        ).bind @ 
+            # console.log store.store.getState()
+            console.log @props.actions
+            # console.log  store.store.getState().todosRedux.todos.props.actions.removeOne id: key
+            @props.actions.removeOne id: key
+            
+        ).bind @
 
 
         hasClick: (str) ->
