@@ -1,21 +1,16 @@
 import { ddbs as dd } from 'ddeyes'
-
 import React, { Component } from 'react'
 import Input from '../../../StoryView/src/components/input'
 import List from '../../../StoryView/src/components/list'
 import Title from '../../../StoryView/src/components/title'
 import { prefixDom } from 'cfx.dom'
-
 import { connect } from 'cfx.react-redux'
 import { store } from 'ReduxServ'
 { 
   actions 
   reducers
 } = store
-
-import {
-  getState
-} from './components'
+import { getState } from './components'
 
 CFX = prefixDom {
   Title
@@ -27,13 +22,11 @@ CFX = prefixDom {
 class StoryTodos extends Component
 
   constructor: (props) ->
-    
     super props
     @state = 
       filter: props.state.filter
     @
 
- 
   componentWillReceiveProps: (nextProps) ->
     {
       filter
@@ -42,7 +35,7 @@ class StoryTodos extends Component
       filter
     }
     @
-
+     
   render: ->
 
     {
@@ -52,44 +45,61 @@ class StoryTodos extends Component
       c_List
     } = CFX
 
-    
     c_div {}
     ,
       c_Title {}
+
+      
+      
       c_Input
         filter: @props.state.filter
+        # console.log @props
         selector: (
           (filter) ->
             @props.actions.filterSave
               filter: filter
+            if filter is 'active'
+              @props.Packet(false)
+            else if filter is 'completed'
+              @props.Packet(true)
         ).bind @
-
+        
         blur: (
           (v) ->
             @props.actions.create todo: v
-            # console.log store
             console.log store.store.getState().todosRedux.todos
+              
         ).bind @
-      
+      console.log store.store
       c_List
         data: store.store.getState().todosRedux.todos          
-        isClick: false
-        str: ' '
         
-        Delete: (
-          (key) ->
-            # console.log key
-            # console.log store.store.getState()
-            console.log @props.actions
-            # console.log  store.store.getState().todosRedux.todos.props.actions.removeOne id: key
-            @props.actions.removeOne id: key
-            
+        styleChange: (
+          (id,isCompleted) ->
+            textDecorationLine: 'line-through' if isCompleted is true
         ).bind @
 
+        Delete: (
+          (key) ->
+            @props.actions.removeOne
+              id: key
+        ).bind @
 
-        hasClick: (str) ->
-          console.log 'key:'
-          console.log str         
+        Patch: (
+          (key, value) ->
+            @props.actions.patch
+              id: key
+              todo: value
+              isCompleted: false
+        ).bind @
+
+        hasClick: (
+          (key, todo, isCompleted) ->
+            @props.actions.patch
+              id: key
+              todo: todo
+              isCompleted: !isCompleted
+        ). bind @
 
 mapStateToProps = (state) ->
   getState state.todosRedux
@@ -98,13 +108,10 @@ mapActionToProps =
   filterSave: actions.filterSave
   create: actions.todosCreate
   removeOne: actions.todosRemoveOne
-
+  patch: actions.todosPatch
+  save: actions.todosSave
 export default connect(
   mapStateToProps
   mapActionToProps
   StoryTodos
 )
-
-
-
-
