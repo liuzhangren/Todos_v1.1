@@ -35,9 +35,10 @@ class StoryTodos extends Component
       filter
     }
     @
-     
+    
+   
   render: ->
-
+    console.log @props
     {
       c_div
       c_Title
@@ -67,10 +68,10 @@ class StoryTodos extends Component
         blur: (
           (v) ->
             @props.actions.create todo: v
-            console.log store.store.getState().todosRedux.todos
+            # console.log store.store.getState().todosRedux.todos
               
         ).bind @
-      console.log store.store
+        
       c_List
         data: store.store.getState().todosRedux.todos          
         
@@ -110,6 +111,7 @@ mapActionToProps =
   removeOne: actions.todosRemoveOne
   patch: actions.todosPatch
   save: actions.todosSave
+
 export default connect(
   mapStateToProps
   mapActionToProps

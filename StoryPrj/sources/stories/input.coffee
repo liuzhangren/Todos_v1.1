@@ -31,18 +31,5 @@ export default ->
       c_Todos
     } = CFX
 
-    c_Todos
-      Packet: (bool,data) ->
-        console.log 'hello'
-        data = store.store.getState().todosRedux.todos   
-        newTemp = []
-        data.reduce (r, c, _index, array) =>
-          if c.isCompleted is bool
-            temp = JSON.parse JSON.stringify array
-            newTemp.push temp[_index]
-          newTemp
-        , null
-        console.log newTemp
+    c_Todos {}
       
-
-          

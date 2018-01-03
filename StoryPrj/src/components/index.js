@@ -53,6 +53,7 @@ StoryTodos = class StoryTodos extends Component {
 
   render() {
     var c_Input, c_List, c_Title, c_div;
+    console.log(this.props);
     ({c_div, c_Title, c_Input, c_List} = CFX);
     return c_div({}, c_Title({}), c_Input({
       filter: this.props.state.filter,
@@ -68,12 +69,12 @@ StoryTodos = class StoryTodos extends Component {
         }
       }).bind(this),
       blur: (function(v) {
-        this.props.actions.create({
+        return this.props.actions.create({
           todo: v
         });
-        return console.log(store.store.getState().todosRedux.todos);
+      // console.log store.store.getState().todosRedux.todos
       }).bind(this)
-    }), console.log(store.store), c_List({
+    }), c_List({
       data: store.store.getState().todosRedux.todos,
       styleChange: (function(id, isCompleted) {
         if (isCompleted === true) {

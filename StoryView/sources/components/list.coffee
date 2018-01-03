@@ -100,7 +100,7 @@ class list extends Component
 
     styleComp = (id,isCompleted) ->
       styleChange id, isCompleted
-
+    
     c_List.apply @, [
       renderHeader: ' '
       className: 'my-list'
