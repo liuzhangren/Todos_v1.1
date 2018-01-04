@@ -10,13 +10,13 @@ import { store } from '../../src'
   getStore
 } = store
 
-# subscriber = (
-#   prevState
-#   nextState
-#   action
-#   dispatch
-# ) ->
-  # dd @getState()
+subscriber = (
+  prevState
+  nextState
+  action
+  dispatch
+) ->
+  dd @getState()
 
 target.static = ->
   dd {
@@ -49,5 +49,5 @@ target.reducers = ->
   # myStore.dispatch actions.filterSave
   #   filter: 'Hello World!!!'
 
-  # myStore.onsubscribe()
+  myStore.onsubscribe()
 

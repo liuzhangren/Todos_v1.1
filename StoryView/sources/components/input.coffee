@@ -61,15 +61,13 @@ class Input extends React.Component
       then @props.blur
       else (blur) =>
         console.log 'Pls use props blur'
-
-    # disable = false
+        console.log blur
+    # console.log @props.data
 
     onSelect = (opt) =>
       selector opt.props.value
-      # if disable is false
-      # then true
-      # else false
-     
+      
+
     onBlur = (v) =>
       blur v
 

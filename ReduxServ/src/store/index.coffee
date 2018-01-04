@@ -8,6 +8,9 @@ import reducers from './reducers'
 store = getStore {
   appName: 'todosRedux'
   reducers
+  subscriber:
+    sync: ->
+      
 }
 
 export {

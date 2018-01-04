@@ -25,60 +25,74 @@ class StoryTodos extends Component
     super props
     @state = 
       filter: props.state.filter
+      todos: []
     @
 
   componentWillReceiveProps: (nextProps) ->
     {
       filter
+      todos
     } = nextProps.state
     @setState {
       filter
+      todos
     }
     @
     
-   
+
   render: ->
-    console.log @props
+    
     {
       c_div
       c_Title
       c_Input
       c_List
     } = CFX
-
+    
+    Packet = (bool, data) ->
+          console.log "hello"
+          data.reduce (r, c) =>
+            [
+              r...
+              (
+                if c.isCompleted is bool
+                then [ c ]  
+                else []
+              )...
+            ]             
+          , []
     c_div {}
     ,
       c_Title {}
-
-      
-      
       c_Input
         filter: @props.state.filter
-        # console.log @props
+
         selector: (
           (filter) ->
             @props.actions.filterSave
               filter: filter
-            if filter is 'active'
-              @props.Packet(false)
-            else if filter is 'completed'
-              @props.Packet(true)
         ).bind @
-        
+        data: store.store.getState().todosRedux.todos
+
         blur: (
           (v) ->
             @props.actions.create todo: v
-            # console.log store.store.getState().todosRedux.todos
               
         ).bind @
         
       c_List
-        data: store.store.getState().todosRedux.todos          
-        
+        # data: @state.todos
+        data: 
+          switch @state.filter
+            when 'active' then Packet false, @state.todos
+            when 'completed' then Packet true, @state.todos
+            when 'all' then @state.todos
+          
         styleChange: (
           (id,isCompleted) ->
             textDecorationLine: 'line-through' if isCompleted is true
         ).bind @
+        
 
         Delete: (
           (key) ->
@@ -93,7 +107,7 @@ class StoryTodos extends Component
               todo: value
               isCompleted: false
         ).bind @
-
+      
         hasClick: (
           (key, todo, isCompleted) ->
             @props.actions.patch
@@ -101,7 +115,10 @@ class StoryTodos extends Component
               todo: todo
               isCompleted: !isCompleted
         ). bind @
-
+        
+        
+        
+        
 mapStateToProps = (state) ->
   getState state.todosRedux
 

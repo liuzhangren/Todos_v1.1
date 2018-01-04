@@ -44,7 +44,13 @@ class list extends Component
       else (Delete) =>
         console.log 'pls run Delete function!'
         console.log Delete
-
+    
+    # partData = () =>
+    #   if @props.filter is 'active'
+    #     @props.Packet false, @props.data
+    #   else if @props.filter is 'completed'
+    #     @props.Packet true, @props.data
+    
     Patch =
       if @props.Patch?
       then @props.Patch
@@ -129,6 +135,7 @@ class list extends Component
                 styleComp c.id, c.isCompleted
               onChange: () -> onChange c.id, c.todo, c.isCompleted
               defaultChecked: false
+              checked: c.isCompleted
             , c.todo
           ]
         , []

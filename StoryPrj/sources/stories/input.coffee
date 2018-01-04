@@ -32,4 +32,3 @@ export default ->
     } = CFX
 
     c_Todos {}
-      

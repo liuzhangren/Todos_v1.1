@@ -39,43 +39,53 @@ StoryTodos = class StoryTodos extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: props.state.filter
+      filter: props.state.filter,
+      todos: []
     };
     this;
   }
 
   componentWillReceiveProps(nextProps) {
-    var filter;
-    ({filter} = nextProps.state);
-    this.setState({filter});
+    var filter, todos;
+    ({filter, todos} = nextProps.state);
+    this.setState({filter, todos});
     return this;
   }
 
   render() {
-    var c_Input, c_List, c_Title, c_div;
-    console.log(this.props);
+    var Packet, c_Input, c_List, c_Title, c_div;
     ({c_div, c_Title, c_Input, c_List} = CFX);
+    Packet = function(bool, data) {
+      console.log("hello");
+      return data.reduce((r, c) => {
+        return [...r, ...(c.isCompleted === bool ? [c] : [])];
+      }, []);
+    };
     return c_div({}, c_Title({}), c_Input({
       filter: this.props.state.filter,
-      // console.log @props
       selector: (function(filter) {
-        this.props.actions.filterSave({
+        return this.props.actions.filterSave({
           filter: filter
         });
-        if (filter === 'active') {
-          return this.props.Packet(false);
-        } else if (filter === 'completed') {
-          return this.props.Packet(true);
-        }
       }).bind(this),
+      data: store.store.getState().todosRedux.todos,
       blur: (function(v) {
         return this.props.actions.create({
           todo: v
         });
-      // console.log store.store.getState().todosRedux.todos
       }).bind(this)
     }), c_List({
-      data: store.store.getState().todosRedux.todos,
+      // data: @state.todos
+      data: (function() {
+        switch (this.state.filter) {
+          case 'active':
+            return Packet(false, this.state.todos);
+          case 'completed':
+            return Packet(true, this.state.todos);
+          case 'all':
+            return this.state.todos;
+        }
+      }).call(this),
       styleChange: (function(id, isCompleted) {
         if (isCompleted === true) {
           return {

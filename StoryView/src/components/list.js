@@ -35,6 +35,12 @@ list = class list extends Component {
       console.log('pls run Delete function!');
       return console.log(Delete);
     };
+    
+    // partData = () =>
+    //   if @props.filter is 'active'
+    //     @props.Packet false, @props.data
+    //   else if @props.filter is 'completed'
+    //     @props.Packet true, @props.data
     Patch = this.props.Patch != null ? this.props.Patch : (Patch) => {
       console.log('pls run Patch function!');
       return console.log(Patch);
@@ -131,7 +137,8 @@ list = class list extends Component {
           c.todo,
           c.isCompleted);
             },
-            defaultChecked: false
+            defaultChecked: false,
+            checked: c.isCompleted
           },
           c.todo))
         ];
